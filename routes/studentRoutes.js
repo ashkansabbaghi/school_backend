@@ -1,9 +1,10 @@
 import express from 'express';
 import { getAllStudents, createStudent } from '../controllers/studentController.js';
+import { verifyToken, checkRole } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
-router.get('/', getAllStudents);
-router.post('/', createStudent);
+router.get('/', verifyToken, checkRole('student'), getAllStudents);
+router.post('/', verifyToken, checkRole('admin'), createStudent);
 
 export default router;
